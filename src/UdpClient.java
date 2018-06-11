@@ -1,17 +1,17 @@
 // Java program to illustrate Client side
 // Implementation using DatagramSocket
+import utilities.Utilities;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Scanner;
  
-public class UdpClient
-{
+public class UdpClient {
     private static Scanner sc = new Scanner(System.in);
 
-    public static void run()
-    {
+    public static void run() {
         System.out.println("Enter server's ip address:");
         try {
             InetAddress ip = InetAddress.getByName(sc.nextLine());
@@ -31,8 +31,7 @@ public class UdpClient
         byte buf[];
  
         // loop while user not enters "bye"
-        while (true)
-        {
+        while (true) {
 			System.out.print(">");
             String inp = sc.nextLine();
             // convert the String input into the byte array.

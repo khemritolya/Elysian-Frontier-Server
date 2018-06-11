@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Runner {
     public static void main(String[] args) {
-        System.out.println("Enter run mode: ");
+        System.out.print("Enter run mode: ");
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         switch (input) {

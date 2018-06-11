@@ -1,0 +1,16 @@
+#
+# The Aviero Server Config file
+#
+# Change at your own risk
+#
+# Format:
+# [Attribute] [Value]
+#
+
+# Server login
+UNAME khemri
+PW changeplz
+
+# Port
+in-port 1337
+out-port 1338
