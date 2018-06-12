@@ -3,6 +3,7 @@ package test;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class UdpClient {
@@ -66,7 +67,7 @@ public class UdpClient {
             int port = sc.nextInt();
 
             System.out.print("Enter a username: ");
-            String name = sc.nextLine();
+            String name = sc.next();
 
             Receiver r = new Receiver();
             r.setDaemon(true);
@@ -77,6 +78,7 @@ public class UdpClient {
             DatagramPacket send;
 
             buf = BufferUtilities.convertString((byte)0x00, name);
+            System.out.println(Arrays.toString(buf));
             send = new DatagramPacket(buf, buf.length, addr, port);
 
             ds.send(send);
