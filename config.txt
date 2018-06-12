@@ -12,5 +12,4 @@ UNAME khemri
 PW changeplz
 
 # Port
-in-port 1337
-out-port 1338
+port 1337

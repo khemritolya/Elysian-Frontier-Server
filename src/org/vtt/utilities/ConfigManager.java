@@ -1,4 +1,4 @@
-package utilities;
+package org.vtt.utilities;
 
 import java.io.File;
 import java.util.HashMap;
@@ -39,6 +39,13 @@ public class ConfigManager {
         if (settings.get("pw") == null) {
             Logger.log(Logger.LogLevel.ERROR,"Service critical error in config load");
             Logger.log(Logger.LogLevel.ERROR, "There is no password");
+
+            System.exit(0);
+        }
+
+        if (settings.get("port") == null) {
+            Logger.log(Logger.LogLevel.ERROR,"Service critical error in config load");
+            Logger.log(Logger.LogLevel.ERROR, "There is no uname");
 
             System.exit(0);
         }

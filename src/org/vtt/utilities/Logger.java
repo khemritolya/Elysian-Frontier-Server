@@ -1,4 +1,4 @@
-package utilities;
+package org.vtt.utilities;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -86,8 +86,8 @@ public class Logger {
             }
         }
 
-        Path file = Paths.get("logs/aviero-server-" + startTime +".log");
-        Path recent = Paths.get("logs/aviero-server-recent.log");
+        Path file = Paths.get("logs/elysian-frontier-server-" + startTime +".log");
+        Path recent = Paths.get("logs/elysian-frontier-server-recent.log");
 
         try {
             if (Files.exists(recent)) Files.delete(recent);
