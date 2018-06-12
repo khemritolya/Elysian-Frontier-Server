@@ -7,7 +7,9 @@ import org.vtt.utilities.Logger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Arrays;
 
+import static org.vtt.utilities.Logger.LogLevel.DEBUG;
 import static org.vtt.utilities.Logger.LogLevel.ERROR;
 
 public class OutConnManager extends Thread {
@@ -30,7 +32,7 @@ public class OutConnManager extends Thread {
 
     public synchronized void sendMessage(InetAddress addr, InetAddress addrFrom, String message) {
         try {
-            Logger.log(message);
+            Logger.log(DEBUG, "Sending " + message + " to " + addr + " from " + addrFrom);
             byte[] buf = BufferUtilities.convertString(Opcode.OUT_CHAT, addrFrom, message);
             DatagramPacket dp = new DatagramPacket(buf, buf.length, addr, Server.port);
 

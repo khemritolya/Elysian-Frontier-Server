@@ -45,8 +45,8 @@ public class UdpClient {
             try {
                 while (true) {
                     DatagramSocket ds = new DatagramSocket();
-                    DatagramPacket dpReceive = new DatagramPacket(inBuffer, inBuffer.length);
-                    ds.receive(dpReceive);
+                    DatagramPacket dp = new DatagramPacket(inBuffer, inBuffer.length);
+                    ds.receive(dp);
                     System.out.println("Server:-" + BufferUtilities.convertBuf(inBuffer, 1));
                 }
             } catch (Exception e) {
@@ -58,10 +58,15 @@ public class UdpClient {
     private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.print("Enter server's ip: ");
-
         try {
+            System.out.print("Enter server's ip: ");
             InetAddress addr = InetAddress.getByName(sc.nextLine());
+
+            System.out.print("Enter a port: ");
+            int port = sc.nextInt();
+
+            System.out.print("Enter a username: ");
+            String name = sc.nextLine();
 
             Receiver r = new Receiver();
             r.setDaemon(true);
@@ -71,21 +76,25 @@ public class UdpClient {
             byte[] buf;
             DatagramPacket send;
 
+            buf = BufferUtilities.convertString((byte)0x00, name);
+            send = new DatagramPacket(buf, buf.length, addr, port);
+
+            ds.send(send);
+
             while (true) {
                 String text = sc.nextLine();
 
                 if (text.equals("exit")) break;
 
-
                 buf = BufferUtilities.convertString((byte)0x01, text);
-                send = new DatagramPacket(buf, buf.length, addr,1337);
+                send = new DatagramPacket(buf, buf.length, addr, port);
 
                 ds.send(send);
-                buf = new byte[1024];
             }
 
             System.out.println("Exiting...");
 
+            r.interrupt();
         } catch (Exception e) {
             e.printStackTrace();
         }

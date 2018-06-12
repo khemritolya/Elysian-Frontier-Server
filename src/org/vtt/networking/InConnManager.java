@@ -9,8 +9,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.StringTokenizer;
 
-import static org.vtt.utilities.Logger.LogLevel.ERROR;
-import static org.vtt.utilities.Logger.LogLevel.USER;
+import static org.vtt.utilities.Logger.LogLevel.*;
 
 public class InConnManager extends Thread {
     public void run() {
@@ -25,13 +24,13 @@ public class InConnManager extends Thread {
         }
 
         byte[] inBuffer = new byte[1024];
-        DatagramPacket dpReceive;
+        DatagramPacket dp;
 
         while (Server.isOnline()) {
-            dpReceive = new DatagramPacket(inBuffer, inBuffer.length);
+            dp = new DatagramPacket(inBuffer, inBuffer.length);
 
             try {
-                ds.receive(dpReceive);
+                ds.receive(dp);
 
                 if (inBuffer[0] == Opcode.LOGIN) {
                     StringTokenizer text = new StringTokenizer(BufferUtilities.convertBuf(inBuffer, 1));
@@ -39,16 +38,21 @@ public class InConnManager extends Thread {
 
                     // TODO potentially do other things, like password
 
-                    Server.addClientByAddr(ds.getInetAddress(), name);
-                } else if (inBuffer[0] == Opcode.IN_CHAT) {
+                    Logger.log(INFO, "Added a new user " + name + " from " + dp.getAddress());
+
+                    Server.addClientByAddr(dp.getAddress(), name);
+                } else if (inBuffer[0] == Opcode.IN_CHAT &&
+                        Server.getClientByAddr(dp.getAddress()) != null) {
                     String message = BufferUtilities.convertBuf(inBuffer, 1);
-                    Logger.log(USER, dpReceive.getAddress() + ":-" + message);
-                    Server.sendMessageByNotAddr(dpReceive.getAddress(), message);
+                    Logger.log(USER, dp.getAddress() + ":-" + message);
+                    Server.sendMessageByNotAddr(dp.getAddress(), message);
                 } else if (inBuffer[0] == Opcode.KEEP_ALIVE) {
                     // TODO register that the client is still connected;
                 } else {
                     // Ignore it
                 }
+
+                inBuffer = new byte[1024];
             } catch (Exception e) {
                 Logger.log(e);
             }

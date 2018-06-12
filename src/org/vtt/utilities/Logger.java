@@ -1,5 +1,7 @@
 package org.vtt.utilities;
 
+import org.vtt.Server;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.OutputStreamWriter;
@@ -42,6 +44,8 @@ public class Logger {
         final Thread currThread = Thread.currentThread();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            Server.kill();
+
             log(LogLevel.INFO, "Dumping Logs...");
             dump();
             try {

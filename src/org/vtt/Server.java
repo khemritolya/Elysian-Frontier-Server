@@ -67,17 +67,25 @@ public class Server {
                 Logger.log(INFO, "Unknown Command " + input);
             }
         }
+    }
+
+    public static synchronized boolean isOnline() {
+        return online;
+    }
+
+    public static synchronized void kill() {
+        online = false;
 
         inconn.interrupt();
         outconn.interrupt();
     }
 
-    public static boolean isOnline() {
-        return online;
-    }
-
     public static synchronized void addClientByAddr(InetAddress addr, String name) {
         clients.put(addr, name);
+    }
+
+    public static synchronized String getClientByAddr(InetAddress addr) {
+        return clients.get(addr);
     }
 
     public static synchronized void sendMessageByNotAddr(InetAddress addr, String message) {
@@ -86,8 +94,6 @@ public class Server {
                 outconn.sendMessage(a, addr, message);
             //}
         }
-
-        Logger.log("Rebroadcasted from " + addr + ": " + message);
     }
 
     public static synchronized void sendMessageByAddr(InetAddress addr, InetAddress from, String message) {
